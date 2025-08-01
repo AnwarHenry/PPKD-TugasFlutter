@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 class StartWidget extends StatelessWidget {
   const StartWidget({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +26,9 @@ class StartWidget extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(24),
+          ),
           Text(
             'Anwar Hidayat',
             style: TextStyle(
