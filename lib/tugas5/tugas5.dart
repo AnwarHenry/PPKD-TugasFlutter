@@ -20,14 +20,14 @@ class _Tugas5State extends State<Tugas5> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Tambahan: dua tombol FAB di kanan bawah (tambah & kurang)
+      // FloatingActionButtons: Kurang, Reset, Tambah
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          // Tombol Kurang
           FloatingActionButton(
             heroTag: "btnKurang",
             child: const Icon(Icons.remove),
-            //backgroundColor: Colors.red,
             onPressed: () {
               setState(() {
                 if (counter > 0) counter--;
@@ -35,12 +35,23 @@ class _Tugas5State extends State<Tugas5> {
               print("Counter dikurangi: $counter");
             },
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 5),
+          // Tombol Reset
+          FloatingActionButton(
+            heroTag: "btnReset",
+            child: const Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                counter = 0;
+              });
+              print("Counter direset: $counter");
+            },
+          ),
+          const SizedBox(width: 10),
+          // Tombol Tambah
           FloatingActionButton(
             heroTag: "btnTambah",
             child: const Icon(Icons.add),
-            
-            //backgroundColor: Colors.green,
             onPressed: () {
               setState(() {
                 counter++;
@@ -74,7 +85,6 @@ class _Tugas5State extends State<Tugas5> {
                     const Text(
                       "Tampilkan Nama",
                       style: TextStyle(fontWeight: FontWeight.bold),
-                      
                     ),
                     const SizedBox(height: 10),
                     ElevatedButton(
