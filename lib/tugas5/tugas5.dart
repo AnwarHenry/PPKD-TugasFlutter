@@ -5,6 +5,7 @@ class Tugas5 extends StatefulWidget {
   @override
   State<Tugas5> createState() => _Tugas5State();
 }
+
 class _Tugas5State extends State<Tugas5> {
   int counter = 0;
   String icon = "SUKA!!!!!";
@@ -51,7 +52,6 @@ class _Tugas5State extends State<Tugas5> {
               color: Colors.lightBlue,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                
               ),
               elevation: 4,
               child: Padding(
@@ -62,7 +62,7 @@ class _Tugas5State extends State<Tugas5> {
                       "Elevated Button",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-             
+
                     const SizedBox(height: 5),
                     ElevatedButton(
                       onPressed: () {
@@ -72,7 +72,7 @@ class _Tugas5State extends State<Tugas5> {
                       },
                       child: Text(showName ? "Sembunyikan" : "Tampilkan Nama"),
                     ),
-                    
+
                     const SizedBox(height: 5),
                     if (showName)
                       Text(
@@ -129,7 +129,6 @@ class _Tugas5State extends State<Tugas5> {
             Card(
               color: Colors.lightBlue,
               shape: RoundedRectangleBorder(
-                
                 borderRadius: BorderRadius.circular(12),
               ),
               elevation: 4,
@@ -147,8 +146,9 @@ class _Tugas5State extends State<Tugas5> {
                           showText = !showText;
                         });
                       },
-                      child: Text(showText ? "Sembunyikan" : "Lihat Selengkapnya"),
-                      
+                      child: Text(
+                        showText ? "Sembunyikan" : "Lihat Selengkapnya",
+                      ),
                     ),
                     if (showText)
                       Padding(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class StartWidget extends StatelessWidget {
   const StartWidget({super.key});
   @override
@@ -6,10 +7,8 @@ class StartWidget extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Profil Saya', 
-          style: TextStyle(color: Colors.white,
-          fontWeight: FontWeight.bold 
-          ),
+          'Profil Saya',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color.fromARGB(255, 40, 98, 104),
         actions: [
@@ -22,13 +21,11 @@ class StartWidget extends StatelessWidget {
         onPressed: () {},
         child: Icon(Icons.add),
       ),
-      
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(24),
-          ),
+          Padding(padding: const EdgeInsets.all(24)),
           Text(
             'Anwar Hidayat',
             style: TextStyle(
@@ -39,7 +36,10 @@ class StartWidget extends StatelessWidget {
           ),
           Row(
             children: [
-              Icon(Icons.location_on, color: const Color.fromARGB(255, 243, 33, 33)),
+              Icon(
+                Icons.location_on,
+                color: const Color.fromARGB(255, 243, 33, 33),
+              ),
               Text(
                 'DKI Jakarta, Indonesia',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
