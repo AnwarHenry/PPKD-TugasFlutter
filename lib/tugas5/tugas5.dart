@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 
 class Tugas5 extends StatefulWidget {
   const Tugas5({super.key});
-
   @override
   State<Tugas5> createState() => _Tugas5State();
 }
-
 class _Tugas5State extends State<Tugas5> {
   int counter = 0;
   String icon = "SUKA!!!!!";
@@ -24,31 +22,7 @@ class _Tugas5State extends State<Tugas5> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // Tombol Kurang
-          FloatingActionButton(
-            heroTag: "btnKurang",
-            child: const Icon(Icons.remove),
-            onPressed: () {
-              setState(() {
-                if (counter > 0) counter--;
-              });
-              print("Counter dikurangi: $counter");
-            },
-          ),
-          const SizedBox(width: 5),
-          // Tombol Reset
-          FloatingActionButton(
-            heroTag: "btnReset",
-            child: const Icon(Icons.refresh),
-            onPressed: () {
-              setState(() {
-                counter = 0;
-              });
-              print("Counter direset: $counter");
-            },
-          ),
-          const SizedBox(width: 10),
-          // Tombol Tambah
+          // Tombol Tambah Count
           FloatingActionButton(
             heroTag: "btnTambah",
             child: const Icon(Icons.add),
@@ -64,43 +38,47 @@ class _Tugas5State extends State<Tugas5> {
 
       appBar: AppBar(
         title: const Text("Tugas 5"),
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromARGB(206, 37, 33, 243),
         centerTitle: true,
       ),
 
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             // Tampilkan Nama
             Card(
+              color: Colors.lightBlue,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
+                
               ),
               elevation: 4,
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
                     const Text(
-                      "Tampilkan Nama",
+                      "Elevated Button",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 10),
+             
+                    const SizedBox(height: 5),
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
                           showName = !showName;
                         });
                       },
-                      child: Text(showName ? "Sembunyikan" : "Tampilkan"),
+                      child: Text(showName ? "Sembunyikan" : "Tampilkan Nama"),
                     ),
-                    const SizedBox(height: 10),
+                    
+                    const SizedBox(height: 5),
                     if (showName)
                       Text(
                         name,
                         style: const TextStyle(
-                          fontSize: 40,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -113,12 +91,13 @@ class _Tugas5State extends State<Tugas5> {
 
             // Icon Button
             Card(
+              color: Colors.lightBlue,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
               ),
               elevation: 4,
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
                     const Text(
@@ -128,8 +107,8 @@ class _Tugas5State extends State<Tugas5> {
                     IconButton(
                       icon: const Icon(
                         Icons.favorite,
-                        color: Colors.deepPurpleAccent,
-                        size: 40,
+                        color: Color.fromRGBO(255, 77, 77, 1),
+                        size: 50,
                       ),
                       onPressed: () {
                         setState(() {
@@ -148,7 +127,9 @@ class _Tugas5State extends State<Tugas5> {
 
             // Text Button
             Card(
+              color: Colors.lightBlue,
               shape: RoundedRectangleBorder(
+                
                 borderRadius: BorderRadius.circular(12),
               ),
               elevation: 4,
@@ -166,14 +147,15 @@ class _Tugas5State extends State<Tugas5> {
                           showText = !showText;
                         });
                       },
-                      child: Text(showText ? "Sembunyikan" : "Tampilkan"),
+                      child: Text(showText ? "Sembunyikan" : "Lihat Selengkapnya"),
+                      
                     ),
                     if (showText)
                       Padding(
-                        padding: const EdgeInsets.only(top: 12),
+                        padding: const EdgeInsets.only(top: 15),
                         child: Text(
                           text,
-                          style: const TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 15),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -187,6 +169,7 @@ class _Tugas5State extends State<Tugas5> {
             // Counter Display
             Card(
               elevation: 4,
+              color: Colors.lightBlue,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -195,7 +178,7 @@ class _Tugas5State extends State<Tugas5> {
                 child: Text(
                   'Counter: $counter',
                   style: const TextStyle(
-                    fontSize: 28,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -207,6 +190,7 @@ class _Tugas5State extends State<Tugas5> {
             // InkWell dengan Gambar
             Card(
               elevation: 4,
+              color: Colors.lightBlue,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -217,9 +201,9 @@ class _Tugas5State extends State<Tugas5> {
                     showGambar = !showGambar;
                   });
                 },
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(10),
                   child: showGambar
                       ? Image.asset(
                           "assets/images/cake1.jpg",
@@ -232,7 +216,7 @@ class _Tugas5State extends State<Tugas5> {
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
 
             // Gesture Detector
             Card(
@@ -248,7 +232,7 @@ class _Tugas5State extends State<Tugas5> {
                   height: 48,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: const Color.fromARGB(255, 33, 37, 243),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   alignment: Alignment.center,
