@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ppkdb3/tugas6/tugas6.dart';
+
+// import 'package:ppkdb3/Jajal/navpop.dart';
+// import 'package:ppkdb3/Jajal/navpushRep.dart';
+// import 'package:ppkdb3/Jajal/navpushremove.dart';
+// import 'package:ppkdb3/tugas6/tugas6.dart';
+import 'Jajal/login.dart';
+import 'Jajal/register.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +19,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const Login(),
+        '/register': (context) => const Register(),
+      },
+    );
+  }
+}
+
+
+      //theme: ThemeData(
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
@@ -29,9 +46,9 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: Tugas6(),
-    );
-  }
-}
+//         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+//       ),
+//       home: Tugas6(),
+//     );
+//   }
+// }

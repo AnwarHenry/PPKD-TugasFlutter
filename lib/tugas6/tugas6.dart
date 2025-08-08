@@ -146,7 +146,7 @@ class _Tugas6State extends State<Tugas6> {
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text("Berhasil Masuk"),
+                                    //Text("Berhasil Masuk"),
                                     SizedBox(height: 20),
                                     Lottie.asset(
                                       'assets/animations/success.json',
