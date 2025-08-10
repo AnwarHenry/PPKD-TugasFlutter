@@ -5,10 +5,10 @@ class Tugas6 extends StatefulWidget {
   const Tugas6({super.key});
 
   @override
-  State<Tugas6> createState() => _Tugas6State();
+  State<Tugas6> createState() => _Tugas6();
 }
 
-class _Tugas6State extends State<Tugas6> {
+class _Tugas6 extends State<Tugas6> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -21,9 +21,33 @@ class _Tugas6State extends State<Tugas6> {
   @override
   void dispose() {
     emailController.dispose();
+    passwordController.dispose();
     // Dispose of any controllers or resources here if needed
     super.dispose();
   }
+
+  // void handleLogin() {
+  //   if (_formKey.currentState!.validate()) {
+  //     final email = emailController.text.trim();
+  //     final password = passwordController.text.trim();
+
+  //     if (validUsers.containsKey(email) && validUsers[email] == password) {
+  //       final Map<String, String> userData = {
+  //         'email': email,
+  //         'password': password,
+  //       };
+
+  //       Navigator.pushNamed(context, '/dashboard', arguments: userData);
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Email atau password salah'),
+  //           backgroundColor: Colors.red,
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +96,7 @@ class _Tugas6State extends State<Tugas6> {
                   ),
                 ],
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 10),
               Form(
                 key: _formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -99,9 +123,6 @@ class _Tugas6State extends State<Tugas6> {
                         if (!value.contains("@")) {
                           return "Email tidak valid";
                         }
-                        // if (!value.contains(".com")) {
-                        //   return "Email tidak valid";
-                        // }
                         return null;
                       },
                       // onTap: () {
@@ -111,7 +132,7 @@ class _Tugas6State extends State<Tugas6> {
                       //   }
                       // },
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 15),
                     TextFormField(
                       controller: passwordController,
                       style: TextStyle(color: Colors.white),
@@ -133,7 +154,7 @@ class _Tugas6State extends State<Tugas6> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 32),
+                    SizedBox(height: 30),
                     ElevatedButton(
                       onPressed: () {
                         //Error dan sukses menggunakan ScaffoldMessenger dan formKey
@@ -210,17 +231,20 @@ class _Tugas6State extends State<Tugas6> {
                           //   },
                           // );
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Login gagal!")),
+                            SnackBar(
+                              content: Text("Login gagal!"),
+                              backgroundColor: Colors.red,
+                            ),
                           );
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(300, 60),
+                        minimumSize: Size(600, 100),
                       ),
                       child: Text(
                         "Login",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF00224F),
                         ),
@@ -260,7 +284,7 @@ class _Tugas6State extends State<Tugas6> {
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF11325C),
-                      minimumSize: Size(300, 60),
+                      minimumSize: Size(700, 100),
                     ),
                   ),
                   SizedBox(height: 16),
@@ -280,7 +304,7 @@ class _Tugas6State extends State<Tugas6> {
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF11325C),
-                      minimumSize: Size(300, 60),
+                      minimumSize: Size(700, 100),
                     ),
                   ),
                 ],

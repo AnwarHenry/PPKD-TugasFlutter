@@ -43,9 +43,14 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:ppkdb3/tugas7/dashboard.dart';
+import 'package:intl/date_symbol_data_local.dart';
+//import 'package:ppkdb3/Jajal/login.dart';
+import 'package:ppkdb3/tugas6/aboutme.dart';
+import 'package:ppkdb3/tugas6/dashboard.dart';
+import 'package:ppkdb3/tugas6/tugas6.dart';
 
 void main() {
+  initializeDateFormatting("id_ID");
   runApp(const MyApp());
 }
 
@@ -61,9 +66,29 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tugas 7',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const Dashboard(),
+      title: 'Profile Saya',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 255, 230, 0),
+        ),
+      ),
+      home: Tugas6(),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // debugShowCheckedModeBanner: false,
+      routes: {
+        '/dashboard': (context) =>
+            Dashboard(userData: {'email': '', 'password': ''}),
+        '/tugas6': (context) => const Tugas6(),
+      },
+
+      // home: const Tugas6(),
+      // home: const SizeboxTesting(),
+      // home: const DatePickerTest(),
+      // home: const SwitchTesting(),
+      // home: const DropdownTesting(),
+      // home: const AboutMePage(),
+      // home: const CheckboxTesting(),
+      // debugShowCheckedModeBanner: false,
     );
   }
 }
