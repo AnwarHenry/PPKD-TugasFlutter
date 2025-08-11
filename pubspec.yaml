@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  day_night_switch: ^1.0.4
   crystal_navigation_bar: null
   persistent_bottom_nav_bar_v2: ^6.1.0
 

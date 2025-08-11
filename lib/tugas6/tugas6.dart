@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:ppkdb3/extension/navigation.dart';
+import 'package:ppkdb3/tugas7/drawer.dart';
 
 class Tugas6 extends StatefulWidget {
   const Tugas6({super.key});
+  static const id = "/main";
 
   @override
   State<Tugas6> createState() => _Tugas6();
@@ -187,7 +190,11 @@ class _Tugas6 extends State<Tugas6> {
                                   TextButton(
                                     child: Text("Lanjutkan"),
                                     onPressed: () {
-                                      Navigator.of(context).pop();
+                                      // context.pushNamed(MyDrawer.id);
+                                      context.pushNamedAndRemoveUntil(
+                                        MyDrawer.id,
+                                        (Route<dynamic> route) => false,
+                                      );
                                     },
                                   ),
                                 ],
@@ -204,7 +211,7 @@ class _Tugas6 extends State<Tugas6> {
                           //         mainAxisSize: MainAxisSize.min,
                           //         children: [
                           //           Text("Berhasil Masuk"),
-                          //           SizedBox(height: 20),
+                          //            SizedBox(height: 20),
                           //           Lottie.asset(
                           //             'assets/animations/success.json',
                           //             width: 200,

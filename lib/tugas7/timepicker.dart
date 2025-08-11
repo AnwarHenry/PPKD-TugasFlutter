@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
 
 class TimePickerPage extends StatefulWidget {
   const TimePickerPage({super.key});
@@ -14,9 +13,8 @@ class _TimePickerPageState extends State<TimePickerPage> {
   Future<void> _pickTime() async {
     TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: const TimeOfDay(hour: 7, minute: 30),
     );
-
     if (picked != null) {
       setState(() {
         selectedTime = picked;
@@ -26,33 +24,23 @@ class _TimePickerPageState extends State<TimePickerPage> {
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final timeFormat = selectedTime != null
-        ? DateFormat('hh:mm ').format(
-            DateTime(
-              now.year,
-              now.month,
-              now.day,
-              selectedTime!.hour,
-              selectedTime!.minute,
-            ),
-          )
-        : null;
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Atur Pengingat')),
+      // appBar: AppBar(title: const Text("Atur Pengingat")),
+      drawer: const Drawer(),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(25),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Text("Atur Pengingat", style: TextStyle(fontSize: 20)),
             ElevatedButton(
               onPressed: _pickTime,
               child: const Text("Pilih Waktu Pengingat"),
             ),
             const SizedBox(height: 20),
             Text(
-              timeFormat != null
-                  ? "Pengingat diatur pukul: $timeFormat"
+              selectedTime != null
+                  ? "Pengingat diatur pukul: ${selectedTime!.format(context)}"
                   : "Belum memilih waktu",
               style: const TextStyle(fontSize: 16),
             ),

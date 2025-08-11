@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
 
-class DatePicker extends StatefulWidget {
-  const DatePicker({super.key});
+class DatePickerPage extends StatefulWidget {
+  const DatePickerPage({super.key});
 
   @override
-  State<DatePicker> createState() => _DatePicker();
+  State<DatePickerPage> createState() => _DatePickerPageState();
 }
 
-class _DatePicker extends State<DatePicker> {
-  DateTime? selectedDate;
+class _DatePickerPageState extends State<DatePickerPage> {
+  TimeOfDay? selectedTime;
 
-  Future<void> _pickDate() async {
-    DateTime? picked = await showDatePicker(
+  Future<void> _pickTime() async {
+    TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialDate: DateTime(2000),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
+      initialTime: const TimeOfDay(hour: 7, minute: 30),
     );
-
     if (picked != null) {
       setState(() {
-        selectedDate = picked;
+        selectedTime = picked;
       });
     }
   }
@@ -29,22 +25,25 @@ class _DatePicker extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Pilih Tanggal Lahir')),
+      // appBar: AppBar(title: const Text("Atur Pengingat")),
+      drawer: const Drawer(),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text("Pilih Tanggal Lahir", style: TextStyle(fontSize: 20)),
             ElevatedButton(
-              onPressed: _pickDate,
-              child: const Text("Pilih Tanggal Lahir"),
+              onPressed: _pickTime,
+              child: const Text("Pilih Waktu Pengingat"),
             ),
             const SizedBox(height: 20),
-            // Text(
-            // selectedDate != null
-            // ? "Tanggal Lahir: ${DateFormat('dd MMMM yyyy').format(selectedDate!)}"
-            //     : "Belum memilih tanggal",
-            // style: const TextStyle(fontSize: 16),
-            // ),
+            Text(
+              selectedTime != null
+                  ? "Pengingat diatur pukul: ${selectedTime!.format(context)}"
+                  : "Belum memilih waktu",
+              style: const TextStyle(fontSize: 16),
+            ),
           ],
         ),
       ),
