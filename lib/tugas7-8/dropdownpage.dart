@@ -25,7 +25,7 @@ class _DropdownPageState extends State<DropdownPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height: 50),
+            const SizedBox(height: 10),
             const Text("Halaman Dropdown", style: TextStyle(fontSize: 20)),
             const SizedBox(height: 10),
             Padding(
@@ -58,7 +58,6 @@ class _DropdownPageState extends State<DropdownPage> {
             // Tampilkan gambar sesuai pilihan
             if (dropdownSelect != null)
               Image.asset(productImages[dropdownSelect]!, height: 350),
-              
           ],
         ),
       ),

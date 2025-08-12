@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ppkdb3/extension/navigation.dart';
-import 'package:ppkdb3/tugas7/drawer.dart';
+import 'package:ppkdb3/tugas7-8/drawer.dart';
 
 class Tugas6 extends StatefulWidget {
   const Tugas6({super.key});

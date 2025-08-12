@@ -28,23 +28,26 @@ class _TimePickerPageState extends State<TimePickerPage> {
       // appBar: AppBar(title: const Text("Atur Pengingat")),
       drawer: const Drawer(),
       body: Padding(
-        padding: const EdgeInsets.all(25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("Atur Pengingat", style: TextStyle(fontSize: 20)),
-            ElevatedButton(
-              onPressed: _pickTime,
-              child: const Text("Pilih Waktu Pengingat"),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              selectedTime != null
-                  ? "Pengingat diatur pukul: ${selectedTime!.format(context)}"
-                  : "Belum memilih waktu",
-              style: const TextStyle(fontSize: 16),
-            ),
-          ],
+        padding: const EdgeInsets.all(10),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+
+            children: [
+              Text("Atur Pengingat", style: TextStyle(fontSize: 20)),
+              ElevatedButton(
+                onPressed: _pickTime,
+                child: const Text("Pilih Waktu Pengingat"),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                selectedTime != null
+                    ? "Pengingat diatur pukul: ${selectedTime!.format(context)}"
+                    : "Belum memilih waktu",
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
         ),
       ),
     );

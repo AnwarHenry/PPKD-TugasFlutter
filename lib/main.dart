@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:ppkdb3/tugas6/tugas6.dart';
-import 'package:ppkdb3/tugas7/drawer.dart';
+import 'package:ppkdb3/tugas7-8/drawer.dart';
 // import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 // import 'package:ppkdb3/tugas7/switch.dart';
 // import 'package:ppkdb3/tugas6/aboutme.dart';

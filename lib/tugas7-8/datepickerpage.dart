@@ -29,22 +29,25 @@ class _DatePickerPageState extends State<DatePickerPage> {
       drawer: const Drawer(),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Pilih Tanggal Lahir", style: TextStyle(fontSize: 20)),
-            ElevatedButton(
-              onPressed: _pickTime,
-              child: const Text("Pilih Waktu Pengingat"),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              selectedTime != null
-                  ? "Pengingat diatur pukul: ${selectedTime!.format(context)}"
-                  : "Belum memilih waktu",
-              style: const TextStyle(fontSize: 16),
-            ),
-          ],
+        child: Center(
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text("Pilih Tanggal Lahir", style: TextStyle(fontSize: 20)),
+              ElevatedButton(
+                onPressed: _pickTime,
+                child: const Text("Pilih Waktu Pengingat"),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                selectedTime != null
+                    ? "Pengingat diatur pukul: ${selectedTime!.format(context)}"
+                    : "Belum memilih waktu",
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
         ),
       ),
     );
