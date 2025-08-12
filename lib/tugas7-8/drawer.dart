@@ -6,7 +6,8 @@ import 'package:ppkdb3/tugas7-8/datepickerpage.dart';
 import 'package:ppkdb3/tugas7-8/dropdownpage.dart';
 import 'package:ppkdb3/tugas7-8/switchpage.dart';
 import 'package:ppkdb3/tugas7-8/timepickerpage.dart';
-import 'package:ppkdb3/tugas9/pakaianlist.dart';
+import 'package:ppkdb3/tugas9/listPakaian.dart';
+import 'package:ppkdb3/tugas9/listmapPakaian.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -27,7 +28,8 @@ class _MyDrawerState extends State<MyDrawer> {
     DropdownPage(), //index 4
     DatePickerPage(), //index 5
     TimePickerPage(), //index 6
-    Pakaianlist(), //index 7
+    ListPakaian(), //index 7
+    ListmapPakaian(), //index 8
   ];
 
   void _onItemTapped(int index) {
@@ -85,6 +87,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 ],
               ),
             ),
+            // Divider(),
             ListTile(
               leading: Icon(Icons.dashboard),
               title: const Text("Dashboard"),
@@ -95,6 +98,7 @@ class _MyDrawerState extends State<MyDrawer> {
               title: const Text("Profile"),
               onTap: () => _onDrawerTapped(1),
             ),
+            Divider(),
             ListTile(
               leading: Icon(Icons.check_box),
               title: const Text("Syarat & Ketentuan"),
@@ -120,10 +124,16 @@ class _MyDrawerState extends State<MyDrawer> {
               title: const Text("Atur Pengingat"),
               onTap: () => _onDrawerTapped(6),
             ),
+            Divider(),
             ListTile(
               leading: const Icon(Icons.list_sharp),
-              title: const Text("List View"),
+              title: const Text("List Pakaian"),
               onTap: () => _onDrawerTapped(7),
+            ),
+            ListTile(
+              leading: const Icon(Icons.list_sharp),
+              title: const Text("List Map Pakaian"),
+              onTap: () => _onDrawerTapped(8),
             ),
           ],
         ),

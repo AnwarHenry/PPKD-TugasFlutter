@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 // import 'package:ppkd_b_3/day_14/model/produk_model.dart';
 
-class Pakaianlist extends StatefulWidget {
-  const Pakaianlist({super.key});
+class ListPakaian extends StatefulWidget {
+  const ListPakaian({super.key});
 
   @override
-  State<Pakaianlist> createState() => _Pakaianlist();
+  State<ListPakaian> createState() => _ListPakaianState();
 }
 
-class _Pakaianlist extends State<Pakaianlist> {
+class _ListPakaianState extends State<ListPakaian> {
   final List<String> pakaianPria = [
     "Jas",
     "Kaos",
