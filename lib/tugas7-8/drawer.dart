@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/tugas10/formPesanan.dart';
 import 'package:ppkdb3/tugas2/profile.dart';
 import 'package:ppkdb3/tugas7-8/checkbox.dart';
 import 'package:ppkdb3/tugas7-8/dashboard.dart';
@@ -11,7 +12,7 @@ import 'package:ppkdb3/tugas9/listmapPakaian.dart';
 import 'package:ppkdb3/tugas9/listmodel.dart';
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({super.key});
+  const MyDrawer({super.key, required});
   static const id = "/drawer";
 
   @override
@@ -32,6 +33,7 @@ class _MyDrawerState extends State<MyDrawer> {
     ListPakaian(), //index 7
     ListmapPakaian(), //index 8
     Listmodel(), // index9
+    FormPesananPage(), // index 10
   ];
 
   void _onItemTapped(int index) {
@@ -141,6 +143,11 @@ class _MyDrawerState extends State<MyDrawer> {
               leading: const Icon(Icons.list_sharp),
               title: const Text("List Model Pakaian"),
               onTap: () => _onDrawerTapped(9),
+            ),
+            ListTile(
+              leading: const Icon(Icons.list_sharp),
+              title: const Text("Form Pesanan Pakaian"),
+              onTap: () => _onDrawerTapped(10),
             ),
           ],
         ),
