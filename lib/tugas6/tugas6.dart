@@ -412,7 +412,7 @@ class _Tugas6State extends State<Tugas6> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 25),
               const Center(
                 child: Text(
                   'Welcome back please\nsign in again',
@@ -420,7 +420,7 @@ class _Tugas6State extends State<Tugas6> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               Form(
                 key: _formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
