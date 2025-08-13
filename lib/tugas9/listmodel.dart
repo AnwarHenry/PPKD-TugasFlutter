@@ -110,7 +110,7 @@ class _ListmodelState extends State<Listmodel> {
                   icon: const Icon(Icons.shopping_cart, size: 16),
                   label: const Text("Beli"),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[700],
+                    backgroundColor: const Color.fromARGB(255, 210, 84, 25),
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
