@@ -8,6 +8,7 @@ import 'package:ppkdb3/tugas7-8/switchpage.dart';
 import 'package:ppkdb3/tugas7-8/timepickerpage.dart';
 import 'package:ppkdb3/tugas9/listPakaian.dart';
 import 'package:ppkdb3/tugas9/listmapPakaian.dart';
+import 'package:ppkdb3/tugas9/listmodel.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -30,6 +31,7 @@ class _MyDrawerState extends State<MyDrawer> {
     TimePickerPage(), //index 6
     ListPakaian(), //index 7
     ListmapPakaian(), //index 8
+    Listmodel(), // index9
   ];
 
   void _onItemTapped(int index) {
@@ -51,7 +53,7 @@ class _MyDrawerState extends State<MyDrawer> {
       // appBar: AppBar(title: const Text("Tugas 7 dan 8")),
 
       // body: Center(child: _widgetOptions[_selectedIndexDrawer]),
-      appBar: AppBar(title: const Text("Tugas 7 dan 8")),
+      appBar: AppBar(title: const Text("Tugas Flutter")),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -134,6 +136,11 @@ class _MyDrawerState extends State<MyDrawer> {
               leading: const Icon(Icons.list_sharp),
               title: const Text("List Map Pakaian"),
               onTap: () => _onDrawerTapped(8),
+            ),
+            ListTile(
+              leading: const Icon(Icons.list_sharp),
+              title: const Text("List Model Pakaian"),
+              onTap: () => _onDrawerTapped(9),
             ),
           ],
         ),
