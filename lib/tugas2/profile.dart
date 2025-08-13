@@ -88,7 +88,7 @@ class Profile extends StatelessWidget {
             //baris 4 - Postingan & Followers
             SizedBox(height: 5),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 children: [
                   Expanded(
@@ -141,16 +141,18 @@ class Profile extends StatelessWidget {
             ),
 
             // Baris 5 - Deskripsi
+            SizedBox(height: 15),
             Text(
               "Tentang Saya",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+            Divider(),
             SizedBox(height: 12),
             const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                "Halo! Welcome to My Profile.",
+                "Halo! Welcome to My Profile.\n Saya",
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.justify,
               ),
