@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ppkdb3/tugas10/formBukti.dart';
 
-class FormPesananPage extends StatefulWidget {
-  const FormPesananPage({super.key});
+class FormPendaftaranPage extends StatefulWidget {
+  const FormPendaftaranPage({super.key});
 
   @override
-  State<FormPesananPage> createState() => _FormPesananPageState();
+  State<FormPendaftaranPage> createState() => _FormPendaftaranPageState();
 }
 
-class _FormPesananPageState extends State<FormPesananPage> {
+class _FormPendaftaranPageState extends State<FormPendaftaranPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController namaController = TextEditingController();

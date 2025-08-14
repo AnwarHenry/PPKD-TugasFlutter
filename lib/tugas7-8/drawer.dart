@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ppkdb3/tugas10/formPesanan.dart';
+import 'package:ppkdb3/tugas10/formPendaftaran.dart';
 import 'package:ppkdb3/tugas2/profile.dart';
 import 'package:ppkdb3/tugas7-8/checkbox.dart';
 import 'package:ppkdb3/tugas7-8/dashboard.dart';
@@ -33,7 +33,7 @@ class _MyDrawerState extends State<MyDrawer> {
     ListPakaian(), //index 7
     ListmapPakaian(), //index 8
     Listmodel(), // index9
-    FormPesananPage(), // index 10
+    FormPendaftaranPage(), // index 10
   ];
 
   void _onItemTapped(int index) {
@@ -146,7 +146,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
             ListTile(
               leading: const Icon(Icons.list_sharp),
-              title: const Text("Form Pesanan Pakaian"),
+              title: const Text("Form Pendaftaran"),
               onTap: () => _onDrawerTapped(10),
             ),
           ],
