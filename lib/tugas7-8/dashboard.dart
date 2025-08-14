@@ -52,22 +52,6 @@ class DashboardPage extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-
-                // const SizedBox(height: 15),
-                // const Text(
-                //   'Selamat datang di Halaman Dashboard',
-                //   style: TextStyle(
-                //     fontSize: 24,
-                //     fontWeight: FontWeight.bold,
-                //     color: Color.fromARGB(
-                //       255,
-                //       19,
-                //       224,
-                //       19,
-                //     ), // agar terlihat di background
-                //   ),
-                //   textAlign: TextAlign.center,
-                // ),
               ],
             ),
           ),

@@ -29,7 +29,7 @@ class FormBukti extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Text(
-              "Terima kasih, $name dari $domisili telah memesan.",
+              "Terima kasih, $name dari $domisili telah mendaftar.",
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),

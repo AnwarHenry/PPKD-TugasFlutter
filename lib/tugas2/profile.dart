@@ -152,7 +152,7 @@ class Profile extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                "Halo! Welcome to My Profile.\n Saya",
+                "Halo! Welcome to My Profile",
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.justify,
               ),

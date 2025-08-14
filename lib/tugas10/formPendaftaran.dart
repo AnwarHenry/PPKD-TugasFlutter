@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ppkdb3/tugas10/formBukti.dart';
+import 'package:ppkdb3/tugas11/listPeserta.dart';
+import 'package:ppkdb3/tugas11/model/user.dart';
+import 'package:ppkdb3/tugas11/sqflite/db_helper.dart';
 
 class FormPendaftaranPage extends StatefulWidget {
   const FormPendaftaranPage({super.key});
@@ -10,163 +12,74 @@ class FormPendaftaranPage extends StatefulWidget {
 
 class _FormPendaftaranPageState extends State<FormPendaftaranPage> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _namaController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _eventController = TextEditingController();
+  final TextEditingController _kotaController = TextEditingController();
 
-  final TextEditingController namaController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController nomorHpController = TextEditingController();
-  final TextEditingController domisiliController = TextEditingController();
+  Future<void> _simpanData() async {
+    if (_formKey.currentState!.validate()) {
+      User user = User(
+        name: _namaController.text,
+        email: _emailController.text,
+        namaEvent: _eventController.text,
+        asalKota: _kotaController.text,
+      );
 
-  String? _validateName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Nama tidak boleh kosong';
+      await DBHelper.instance.insertUser(user);
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Data berhasil disimpan')));
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ListPesertaPage()),
+      );
     }
-    return null;
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email tidak boleh kosong';
-    }
-    if (!value.contains('@')) {
-      return 'Email harus mengandung @';
-    }
-    return null;
-  }
-
-  String? _validatePhone(String? value) {
-    if (value != null &&
-        value.isNotEmpty &&
-        !RegExp(r'^[0-9]+$').hasMatch(value)) {
-      return 'Nomor HP hanya boleh angka';
-    }
-    return null;
-  }
-
-  String? _validateDomisili(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Kota domisili wajib diisi';
-    }
-    return null;
-  }
-
-  void _showConfirmationDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Konfirmasi Pesanan'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Nama     : ${namaController.text}'),
-            Text('Email    : ${emailController.text}'),
-            Text(
-              'No HP    : ${nomorHpController.text.isEmpty ? "Tidak ada" : nomorHpController.text}',
-            ),
-            Text('Domisili : ${domisiliController.text}'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Batal'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FormBukti(
-                    name: namaController.text,
-                    email: emailController.text,
-                    phone: nomorHpController.text.isEmpty
-                        ? null
-                        : nomorHpController.text,
-                    domisili: domisiliController.text,
-                  ),
-                ),
-              );
-            },
-            child: const Text('Lanjut'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Formulir Pendaftaran"),
-        backgroundColor: Colors.teal,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
+      appBar: AppBar(title: const Text('Form Pendaftaran Event')),
+      body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
-          child: Column(
+          child: ListView(
             children: [
               TextFormField(
-                controller: namaController,
-                decoration: const InputDecoration(
-                  labelText: "Nama Lengkap",
-                  border: OutlineInputBorder(),
-                ),
-                validator: _validateName,
+                controller: _namaController,
+                decoration: const InputDecoration(labelText: 'Nama Peserta'),
+                validator: (value) =>
+                    value!.isEmpty ? 'Nama tidak boleh kosong' : null,
               ),
-              const SizedBox(height: 12),
-
               TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: "Email",
-                  border: OutlineInputBorder(),
-                ),
-                validator: _validateEmail,
+                controller: _emailController,
+                decoration: const InputDecoration(labelText: 'Email'),
+                validator: (value) {
+                  if (value!.isEmpty) return 'Email tidak boleh kosong';
+                  if (!value.contains('@')) return 'Email tidak valid';
+                  return null;
+                },
               ),
-              const SizedBox(height: 12),
-
               TextFormField(
-                controller: nomorHpController,
-                decoration: const InputDecoration(
-                  labelText: "Nomor HP (Opsional)",
-                  border: OutlineInputBorder(),
-                ),
-                validator: _validatePhone,
-                keyboardType: TextInputType.phone,
+                controller: _eventController,
+                decoration: const InputDecoration(labelText: 'Nama Event'),
+                validator: (value) =>
+                    value!.isEmpty ? 'Nama event tidak boleh kosong' : null,
               ),
-              const SizedBox(height: 12),
-
               TextFormField(
-                controller: domisiliController,
-                decoration: const InputDecoration(
-                  labelText: "Kota Domisili",
-                  border: OutlineInputBorder(),
-                ),
-                validator: _validateDomisili,
+                controller: _kotaController,
+                decoration: const InputDecoration(labelText: 'Asal Kota'),
+                validator: (value) =>
+                    value!.isEmpty ? 'Asal kota tidak boleh kosong' : null,
               ),
               const SizedBox(height: 20),
-
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _showConfirmationDialog();
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.teal,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  child: const Text(
-                    "Pesan",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
-                ),
+              ElevatedButton(
+                onPressed: _simpanData,
+                child: const Text('Daftar'),
               ),
             ],
           ),
@@ -174,8 +87,174 @@ class _FormPendaftaranPageState extends State<FormPendaftaranPage> {
       ),
     );
   }
+
+  // final _formKey = GlobalKey<FormState>();
+  // final TextEditingController namaController = TextEditingController();
+  // final TextEditingController emailController = TextEditingController();
+  // final TextEditingController nomorHpController = TextEditingController();
+  // final TextEditingController domisiliController = TextEditingController();
+
+  // String? _validateName(String? value) {
+  //   if (value == null || value.isEmpty) {
+  //     return 'Nama tidak boleh kosong';
+  //   }
+  //   return null;
+  // }
+
+  // String? _validateEmail(String? value) {
+  //   if (value == null || value.isEmpty) {
+  //     return 'Email tidak boleh kosong';
+  //   }
+  //   if (!value.contains('@')) {
+  //     return 'Email harus mengandung @';
+  //   }
+  //   return null;
+  // }
+
+  // String? _validatePhone(String? value) {
+  //   if (value != null &&
+  //       value.isNotEmpty &&
+  //       !RegExp(r'^[0-9]+$').hasMatch(value)) {
+  //     return 'Nomor HP hanya boleh angka';
+  //   }
+  //   return null;
+  // }
+
+  // String? _validateDomisili(String? value) {
+  //   if (value == null || value.isEmpty) {
+  //     return 'Kota domisili wajib diisi';
+  //   }
+  //   return null;
+  // }
+
+  // void _showConfirmationDialog() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: const Text('Konfirmasi Pesanan'),
+  //       content: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Text('Nama     : ${namaController.text}'),
+  //           Text('Email    : ${emailController.text}'),
+  //           Text(
+  //             'No HP    : ${nomorHpController.text.isEmpty ? "Tidak ada" : nomorHpController.text}',
+  //           ),
+  //           Text('Domisili : ${domisiliController.text}'),
+  //         ],
+  //       ),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () => Navigator.pop(context),
+  //           child: const Text('Batal'),
+  //         ),
+  //         ElevatedButton(
+  //           onPressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.push(
+  //               context,
+  //               MaterialPageRoute(
+  //                 builder: (context) => FormBukti(
+  //                   name: namaController.text,
+  //                   email: emailController.text,
+  //                   phone: nomorHpController.text.isEmpty
+  //                       ? null
+  //                       : nomorHpController.text,
+  //                   domisili: domisiliController.text,
+  //                 ),
+  //               ),
+  //             );
+  //           },
+  //           child: const Text('Lanjut'),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: const Text("Formulir Pendaftaran"),
+  //       backgroundColor: Colors.teal,
+  //       centerTitle: true,
+  //     ),
+  //     body: SingleChildScrollView(
+  //       padding: const EdgeInsets.all(16),
+  //       child: Form(
+  //         key: _formKey,
+  //         child: Column(
+  //           children: [
+  //             TextFormField(
+  //               controller: namaController,
+  //               decoration: const InputDecoration(
+  //                 labelText: "Nama Lengkap",
+  //                 border: OutlineInputBorder(),
+  //               ),
+  //               validator: _validateName,
+  //             ),
+  //             const SizedBox(height: 12),
+
+  //             TextFormField(
+  //               controller: emailController,
+  //               decoration: const InputDecoration(
+  //                 labelText: "Email",
+  //                 border: OutlineInputBorder(),
+  //               ),
+  //               validator: _validateEmail,
+  //             ),
+  //             const SizedBox(height: 12),
+
+  //             TextFormField(
+  //               controller: nomorHpController,
+  //               decoration: const InputDecoration(
+  //                 labelText: "Nomor HP (Opsional)",
+  //                 border: OutlineInputBorder(),
+  //               ),
+  //               validator: _validatePhone,
+  //               keyboardType: TextInputType.phone,
+  //             ),
+  //             const SizedBox(height: 12),
+
+  //             TextFormField(
+  //               controller: domisiliController,
+  //               decoration: const InputDecoration(
+  //                 labelText: "Kota Domisili",
+  //                 border: OutlineInputBorder(),
+  //               ),
+  //               validator: _validateDomisili,
+  //             ),
+  //             const SizedBox(height: 20),
+
+  //             SizedBox(
+  //               width: double.infinity,
+  //               child: ElevatedButton(
+  //                 onPressed: () {
+  //                   if (_formKey.currentState!.validate()) {
+  //                     _showConfirmationDialog();
+  //                   }
+  //                 },
+  //                 style: ElevatedButton.styleFrom(
+  //                   backgroundColor: Colors.teal,
+  //                   padding: const EdgeInsets.symmetric(vertical: 14),
+  //                 ),
+  //                 child: const Text(
+  //                   "Pesan",
+  //                   style: TextStyle(fontSize: 16, color: Colors.white),
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
+// 2) percobaan ke2
 // class FormPesananPage extends StatefulWidget {
 //   const FormPesananPage({super.key});
 
