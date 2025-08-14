@@ -498,8 +498,8 @@ class _Tugas6State extends State<Tugas6> {
                                     const SizedBox(height: 20),
                                     Lottie.asset(
                                       'assets/animations/success.json',
-                                      width: 200,
-                                      height: 200,
+                                      width: 100,
+                                      height: 100,
                                       fit: BoxFit.cover,
                                     ),
                                   ],

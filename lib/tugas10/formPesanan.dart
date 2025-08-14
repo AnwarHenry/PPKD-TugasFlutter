@@ -16,165 +16,340 @@ class _FormPesananPageState extends State<FormPesananPage> {
   final TextEditingController nomorHpController = TextEditingController();
   final TextEditingController domisiliController = TextEditingController();
 
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email tidak boleh kosong';
-    }
-    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return 'Masukkan email yang valid';
-    }
-    return null;
-  }
-
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Nama tidak boleh kosong';
     }
-    if (value.length < 3) {
-      return 'Nama terlalu pendek';
+    return null;
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email tidak boleh kosong';
+    }
+    if (!value.contains('@')) {
+      return 'Email harus mengandung @';
     }
     return null;
   }
 
   String? _validatePhone(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Nomor HP tidak boleh kosong';
-    }
-    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-      return 'Hanya angka yang diperbolehkan';
+    if (value != null &&
+        value.isNotEmpty &&
+        !RegExp(r'^[0-9]+$').hasMatch(value)) {
+      return 'Nomor HP hanya boleh angka';
     }
     return null;
   }
 
   String? _validateDomisili(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Domisili tidak boleh kosong';
+      return 'Kota domisili wajib diisi';
     }
     return null;
+  }
+
+  void _showConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Konfirmasi Pesanan'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Nama     : ${namaController.text}'),
+            Text('Email    : ${emailController.text}'),
+            Text(
+              'No HP    : ${nomorHpController.text.isEmpty ? "Tidak ada" : nomorHpController.text}',
+            ),
+            Text('Domisili : ${domisiliController.text}'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Batal'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FormBukti(
+                    name: namaController.text,
+                    email: emailController.text,
+                    phone: nomorHpController.text.isEmpty
+                        ? null
+                        : nomorHpController.text,
+                    domisili: domisiliController.text,
+                  ),
+                ),
+              );
+            },
+            child: const Text('Lanjut'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text("Formulir Pemesanan"),
         backgroundColor: Colors.teal,
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Nama
-                const Text("Nama Lengkap:"),
-                TextFormField(
-                  controller: namaController,
-                  decoration: const InputDecoration(
-                    hintText: "Masukkan Nama Lengkap Anda",
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: _validateName,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: namaController,
+                decoration: const InputDecoration(
+                  labelText: "Nama Lengkap",
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 12),
+                validator: _validateName,
+              ),
+              const SizedBox(height: 12),
 
-                // Email
-                const Text("Email:"),
-                TextFormField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    hintText: "Masukkan Email",
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: _validateEmail,
-                  keyboardType: TextInputType.emailAddress,
+              TextFormField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  labelText: "Email",
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 12),
+                validator: _validateEmail,
+              ),
+              const SizedBox(height: 12),
 
-                // No HP
-                const Text("No HP:"),
-                TextFormField(
-                  controller: nomorHpController,
-                  decoration: const InputDecoration(
-                    hintText: "Masukkan No HP",
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: _validatePhone,
-                  keyboardType: TextInputType.phone,
+              TextFormField(
+                controller: nomorHpController,
+                decoration: const InputDecoration(
+                  labelText: "Nomor HP (Opsional)",
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 12),
+                validator: _validatePhone,
+                keyboardType: TextInputType.phone,
+              ),
+              const SizedBox(height: 12),
 
-                // Domisili
-                const Text("Domisili Kota:"),
-                TextFormField(
-                  controller: domisiliController,
-                  decoration: const InputDecoration(
-                    hintText: "Masukkan Domisili Kota Anda",
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: _validateDomisili,
+              TextFormField(
+                controller: domisiliController,
+                decoration: const InputDecoration(
+                  labelText: "Kota Domisili",
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 20),
+                validator: _validateDomisili,
+              ),
+              const SizedBox(height: 20),
 
-                // Tombol Submit
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // SnackBar sukses
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Terima kasih, ${namaController.text} dari ${domisiliController.text} telah mendaftar.',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            duration: const Duration(seconds: 2),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        );
-
-                        // Navigasi setelah delay
-                        Future.delayed(const Duration(milliseconds: 1000), () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FormBukti(
-                                email: emailController.text,
-                                name: namaController.text,
-                                phone: nomorHpController.text,
-                                domisili: domisiliController.text,
-                              ),
-                            ),
-                          );
-                        });
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.teal,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    child: const Text(
-                      "Daftar",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _showConfirmationDialog();
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: const Text(
+                    "Pesan",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
+
+// class FormPesananPage extends StatefulWidget {
+//   const FormPesananPage({super.key});
+
+//   @override
+//   State<FormPesananPage> createState() => _FormPesananPageState();
+// }
+
+// class _FormPesananPageState extends State<FormPesananPage> {
+//   final _formKey = GlobalKey<FormState>();
+
+//   final TextEditingController namaController = TextEditingController();
+//   final TextEditingController emailController = TextEditingController();
+//   final TextEditingController nomorHpController = TextEditingController();
+//   final TextEditingController domisiliController = TextEditingController();
+
+//   String? _validateEmail(String? value) {
+//     if (value == null || value.isEmpty) {
+//       return 'Email tidak boleh kosong';
+//     }
+//     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+//       return 'Masukkan email yang valid';
+//     }
+//     return null;
+//   }
+
+//   String? _validateName(String? value) {
+//     if (value == null || value.isEmpty) {
+//       return 'Nama tidak boleh kosong';
+//     }
+//     if (value.length < 3) {
+//       return 'Nama terlalu pendek';
+//     }
+//     return null;
+//   }
+
+//   String? _validatePhone(String? value) {
+//     if (value == null || value.isEmpty) {
+//       return 'Nomor HP tidak boleh kosong';
+//     }
+//     if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+//       return 'Hanya angka yang diperbolehkan';
+//     }
+//     return null;
+//   }
+
+//   String? _validateDomisili(String? value) {
+//     if (value == null || value.isEmpty) {
+//       return 'Domisili wajib diisi';
+//     }
+//     return null;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       resizeToAvoidBottomInset: true,
+//       appBar: AppBar(
+//         title: const Text("Formulir Pemesanan"),
+//         backgroundColor: Colors.teal,
+//         centerTitle: true,
+//       ),
+//       body: SafeArea(
+//         child: SingleChildScrollView(
+//           padding: const EdgeInsets.all(16),
+//           child: Form(
+//             key: _formKey,
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.center,
+//               children: [
+//                 // Nama
+//                 const Text("Nama Lengkap:"),
+//                 TextFormField(
+//                   controller: namaController,
+//                   decoration: const InputDecoration(
+//                     hintText: "Masukkan Nama Lengkap Anda",
+//                     border: OutlineInputBorder(),
+//                   ),
+//                   validator: _validateName,
+//                 ),
+//                 const SizedBox(height: 12),
+
+//                 // Email
+//                 const Text("Email:"),
+//                 TextFormField(
+//                   controller: emailController,
+//                   decoration: const InputDecoration(
+//                     hintText: "Masukkan Email",
+//                     border: OutlineInputBorder(),
+//                   ),
+//                   validator: _validateEmail,
+//                   keyboardType: TextInputType.emailAddress,
+//                 ),
+//                 const SizedBox(height: 12),
+
+//                 // No HP
+//                 const Text("No HP:"),
+//                 TextFormField(
+//                   controller: nomorHpController,
+//                   decoration: const InputDecoration(
+//                     hintText: "Masukkan No HP",
+//                     border: OutlineInputBorder(),
+//                   ),
+//                   validator: _validatePhone,
+//                   keyboardType: TextInputType.phone,
+//                 ),
+//                 const SizedBox(height: 12),
+
+//                 // Domisili
+//                 const Text("Domisili Kota:"),
+//                 TextFormField(
+//                   controller: domisiliController,
+//                   decoration: const InputDecoration(
+//                     hintText: "Masukkan Domisili Kota Anda",
+//                     border: OutlineInputBorder(),
+//                   ),
+//                   validator: _validateDomisili,
+//                 ),
+//                 const SizedBox(height: 20),
+
+//                 // Tombol Submit
+//                 SizedBox(
+//                   width: double.infinity,
+//                   child: ElevatedButton(
+//                     onPressed: () {
+//                       if (_formKey.currentState!.validate()) {
+//                         // SnackBar sukses
+//                         ScaffoldMessenger.of(context).showSnackBar(
+//                           SnackBar(
+//                             content: Text(
+//                               'Terima kasih, ${namaController.text} dari ${domisiliController.text} telah mendaftar.',
+//                               style: const TextStyle(fontSize: 16),
+//                             ),
+//                             duration: const Duration(seconds: 2),
+//                             behavior: SnackBarBehavior.floating,
+//                             shape: RoundedRectangleBorder(
+//                               borderRadius: BorderRadius.circular(10),
+//                             ),
+//                           ),
+//                         );
+
+//                         // Navigasi setelah delay
+//                         Future.delayed(const Duration(milliseconds: 1000), () {
+//                           Navigator.push(
+//                             context,
+//                             MaterialPageRoute(
+//                               builder: (context) => FormBukti(
+//                                 email: emailController.text,
+//                                 name: namaController.text,
+//                                 phone: nomorHpController.text,
+//                                 domisili: domisiliController.text,
+//                               ),
+//                             ),
+//                           );
+//                         });
+//                       }
+//                     },
+//                     style: ElevatedButton.styleFrom(
+//                       backgroundColor: Colors.teal,
+//                       padding: const EdgeInsets.symmetric(vertical: 14),
+//                     ),
+//                     child: const Text(
+//                       "Daftar",
+//                       style: TextStyle(fontSize: 16, color: Colors.white),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 //   @override
 //   Widget build(BuildContext context) {
