@@ -99,7 +99,7 @@ class _FormPendaftaranPageState extends State<FormPendaftaranPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Formulir Pemesanan"),
+        title: const Text("Formulir Pendaftaran"),
         backgroundColor: Colors.teal,
         centerTitle: true,
       ),

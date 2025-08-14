@@ -18,7 +18,7 @@ class FormBukti extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Bukti Pemesanan"),
+        title: const Text("Bukti Pendaftaran"),
         backgroundColor: Colors.teal,
         centerTitle: true,
       ),
