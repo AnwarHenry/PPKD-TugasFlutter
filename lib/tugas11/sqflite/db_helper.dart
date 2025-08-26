@@ -47,30 +47,31 @@
 //   }
 // }
 
+// lib/tugas11/sqflite/db_helper.dart
+// lib/tugas11/sqflite/db_helper.dart
+// lib/tugas11/sqflite/db_helper.dart
 import 'package:path/path.dart';
-import 'package:ppkdb3/tugas11/model/user.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../model/user.dart';
+
 class DBHelper {
-  static final DBHelper instance = DBHelper._init();
+  DBHelper._privateConstructor();
+  static final DBHelper instance = DBHelper._privateConstructor();
+
   static Database? _database;
 
-  DBHelper._init();
-
   Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDB('event.db');
+    _database ??= await _initDatabase();
     return _database!;
   }
 
-  Future<Database> _initDB(String filePath) async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, filePath);
-
-    return await openDatabase(path, version: 1, onCreate: _createDB);
+  Future<Database> _initDatabase() async {
+    String path = join(await getDatabasesPath(), 'peserta_event.db');
+    return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
-  Future _createDB(Database db, int version) async {
+  Future _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE peserta (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -82,19 +83,33 @@ class DBHelper {
     ''');
   }
 
+  // CREATE
   Future<int> insertUser(User user) async {
-    final db = await instance.database;
+    Database db = await instance.database;
     return await db.insert('peserta', user.toMap());
   }
 
+  // READ - urut berdasarkan abjad nama
   Future<List<User>> getAllUsers() async {
-    final db = await instance.database;
-    final result = await db.query('peserta');
-    return result.map((map) => User.fromMap(map)).toList();
+    Database db = await instance.database;
+    var users = await db.query('peserta', orderBy: 'name ASC');
+    return users.isNotEmpty ? users.map((c) => User.fromMap(c)).toList() : [];
   }
 
-  Future close() async {
-    final db = await instance.database;
-    db.close();
+  // UPDATE
+  Future<int> updateUser(User user) async {
+    Database db = await instance.database;
+    return await db.update(
+      'peserta',
+      user.toMap(),
+      where: 'id = ?',
+      whereArgs: [user.id],
+    );
+  }
+
+  // DELETE
+  Future<int> deleteUser(int id) async {
+    Database db = await instance.database;
+    return await db.delete('peserta', where: 'id = ?', whereArgs: [id]);
   }
 }

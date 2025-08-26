@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ppkdb3/tugas10/formPendaftaran.dart';
 import 'package:ppkdb3/tugas11/listPeserta.dart';
+import 'package:ppkdb3/tugas14/view/get_api.dart';
 import 'package:ppkdb3/tugas2/profile.dart';
 import 'package:ppkdb3/tugas7-8/checkbox.dart';
 import 'package:ppkdb3/tugas7-8/dashboard.dart';
@@ -35,7 +36,8 @@ class _MyDrawerState extends State<MyDrawer> {
     ListmapPakaian(), //index 8
     Listmodel(), // index9
     FormPendaftaranPage(), // index 10
-    ListPesertaPage(), // index 11
+    ListPesertaPage(),
+    GetApiScreen(), // index 11
   ];
 
   void _onItemTapped(int index) {
@@ -51,13 +53,15 @@ class _MyDrawerState extends State<MyDrawer> {
     });
   }
 
+  void _logout() {
+    Navigator.pushReplacementNamed(context, "/login");
+    // Untuk Logout
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: const Text("Tugas 7 dan 8")),
-
-      // body: Center(child: _widgetOptions[_selectedIndexDrawer]),
-      appBar: AppBar(title: const Text("Tugas Flutter")),
+      appBar: AppBar(title: const Text("Ghibli")),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -86,14 +90,25 @@ class _MyDrawerState extends State<MyDrawer> {
                     ),
                   ),
                   const SizedBox(height: 5),
-                  const Text(
-                    "Anwar H",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+
+                  // Row untuk nama + tombol logout
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Anwar H",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.logout, color: Colors.white),
+                        tooltip: "Logout",
+                        onPressed: _logout,
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-            // Divider(),
             ListTile(
               leading: Icon(Icons.dashboard),
               title: const Text("Dashboard"),
@@ -104,7 +119,6 @@ class _MyDrawerState extends State<MyDrawer> {
               title: const Text("Profile"),
               onTap: () => _onDrawerTapped(1),
             ),
-            // Divider(),
             ListTile(
               leading: Icon(Icons.check_box),
               title: const Text("Syarat & Ketentuan"),
@@ -156,13 +170,17 @@ class _MyDrawerState extends State<MyDrawer> {
               title: const Text("List Peserta"),
               onTap: () => _onDrawerTapped(11),
             ),
+            ListTile(
+              leading: const Icon(Icons.list_sharp),
+              title: const Text("Get API"),
+              onTap: () => _onDrawerTapped(12),
+            ),
           ],
         ),
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex > 1 ? 0 : _selectedIndex,
-        // Kalau lagi buka drawer menu, bottomnav tetap highlight dashboard
         onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(
@@ -170,7 +188,6 @@ class _MyDrawerState extends State<MyDrawer> {
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          // BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
         ],
       ),
     );

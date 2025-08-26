@@ -17,32 +17,136 @@ class _FormPendaftaranPageState extends State<FormPendaftaranPage> {
   final TextEditingController _eventController = TextEditingController();
   final TextEditingController _kotaController = TextEditingController();
 
-  Future<void> _simpanData() async {
+  Future<void> _konfirmasiData() async {
     if (_formKey.currentState!.validate()) {
-      User user = User(
-        name: _namaController.text,
-        email: _emailController.text,
-        namaEvent: _eventController.text,
-        asalKota: _kotaController.text,
+      bool? konfirmasi = await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            title: const Text(
+              "Konfirmasi Pendaftaran",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: Card(
+              elevation: 0,
+              color: Colors.grey[100],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildDetailRow("Nama", _namaController.text),
+                    const Divider(),
+                    _buildDetailRow("Email", _emailController.text),
+                    const Divider(),
+                    _buildDetailRow("Event", _eventController.text),
+                    const Divider(),
+                    _buildDetailRow("Kota", _kotaController.text),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text("Batal"),
+              ),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.check, size: 18),
+                label: const Text("Ya, Daftarkan"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context, true),
+              ),
+            ],
+          );
+        },
       );
 
-      await DBHelper.instance.insertUser(user);
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Data berhasil disimpan')));
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const ListPesertaPage()),
-      );
+      if (konfirmasi == true) {
+        _simpanData();
+      }
     }
+  }
+
+  Widget _buildDetailRow(String title, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 70,
+          child: Text(
+            "$title:",
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        Expanded(
+          child: Text(value, style: const TextStyle(color: Colors.black87)),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _simpanData() async {
+    User user = User(
+      name: _namaController.text,
+      email: _emailController.text,
+      namaEvent: _eventController.text,
+      asalKota: _kotaController.text,
+    );
+
+    await DBHelper.instance.insertUser(user);
+
+    // Alert sukses
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          title: const Text("✅ Sukses"),
+          content: const Text(
+            "Data berhasil didaftarkan.",
+            style: TextStyle(fontSize: 16),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+
+    // Pindah ke halaman List Peserta
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const ListPesertaPage()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Form Pendaftaran Event')),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 100, 154, 255),
+        title: const Text('Form Pendaftaran Event'),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -78,8 +182,13 @@ class _FormPendaftaranPageState extends State<FormPendaftaranPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _simpanData,
-                child: const Text('Daftar'),
+                onPressed: _konfirmasiData,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                child: const Text('Simpan', style: TextStyle(fontSize: 16)),
               ),
             ],
           ),
@@ -87,6 +196,90 @@ class _FormPendaftaranPageState extends State<FormPendaftaranPage> {
       ),
     );
   }
+}
+
+
+// class _FormPendaftaranPageState extends State<FormPendaftaranPage> {
+//   final _formKey = GlobalKey<FormState>();
+//   final TextEditingController _namaController = TextEditingController();
+//   final TextEditingController _emailController = TextEditingController();
+//   final TextEditingController _eventController = TextEditingController();
+//   final TextEditingController _kotaController = TextEditingController();
+
+//   Future<void> _simpanData() async {
+//     if (_formKey.currentState!.validate()) {
+//       User user = User(
+//         name: _namaController.text,
+//         email: _emailController.text,
+//         namaEvent: _eventController.text,
+//         asalKota: _kotaController.text,
+//       );
+
+//       await DBHelper.instance.insertUser(user);
+
+//       ScaffoldMessenger.of(
+//         context,
+//       ).showSnackBar(const SnackBar(content: Text('Data berhasil disimpan')));
+
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(builder: (context) => const ListPesertaPage()),
+//       );
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: const Color.fromARGB(255, 100, 154, 255),
+//         title: const Text('Form Pendaftaran Event'),
+//         centerTitle: true,
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16),
+//         child: Form(
+//           key: _formKey,
+//           child: ListView(
+//             children: [
+//               TextFormField(
+//                 controller: _namaController,
+//                 decoration: const InputDecoration(labelText: 'Nama Peserta'),
+//                 validator: (value) =>
+//                     value!.isEmpty ? 'Nama tidak boleh kosong' : null,
+//               ),
+//               TextFormField(
+//                 controller: _emailController,
+//                 decoration: const InputDecoration(labelText: 'Email'),
+//                 validator: (value) {
+//                   if (value!.isEmpty) return 'Email tidak boleh kosong';
+//                   if (!value.contains('@')) return 'Email tidak valid';
+//                   return null;
+//                 },
+//               ),
+//               TextFormField(
+//                 controller: _eventController,
+//                 decoration: const InputDecoration(labelText: 'Nama Event'),
+//                 validator: (value) =>
+//                     value!.isEmpty ? 'Nama event tidak boleh kosong' : null,
+//               ),
+//               TextFormField(
+//                 controller: _kotaController,
+//                 decoration: const InputDecoration(labelText: 'Asal Kota'),
+//                 validator: (value) =>
+//                     value!.isEmpty ? 'Asal kota tidak boleh kosong' : null,
+//               ),
+//               const SizedBox(height: 20),
+//               ElevatedButton(
+//                 onPressed: _simpanData,
+//                 child: const Text('Daftar'),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 
   // final _formKey = GlobalKey<FormState>();
   // final TextEditingController namaController = TextEditingController();
@@ -252,7 +445,7 @@ class _FormPendaftaranPageState extends State<FormPendaftaranPage> {
   //     ),
   //   );
   // }
-}
+// }
 
 // 2) percobaan ke2
 // class FormPesananPage extends StatefulWidget {
