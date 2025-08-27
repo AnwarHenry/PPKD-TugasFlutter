@@ -12,14 +12,11 @@ class GetAPIScren extends StatefulWidget {
 }
 
 class _GetAPIScreenState extends State<GetAPIScren> {
-  // Variabel untuk menyimpan semua data dari API
   List<Welcome> _allUsers = [];
-  // Variabel untuk data hasil filter / pencarian
   List<Welcome> _filteredUsers = [];
-  // Query pencarian yang diketik user
   String _searchQuery = "";
-  // Kategori pencarian yang dipilih user
   String _selectedCategory = "Title";
+  final String _sortOption = "A-Z";
 
   final List<String> _categories = [
     "Title",
@@ -28,9 +25,10 @@ class _GetAPIScreenState extends State<GetAPIScren> {
     "Release Year",
   ];
 
+  final List<String> _sortOptions = ["A-Z", "Z-A"];
+
   @override
   void initState() {
-    // Saat halaman pertama kali dibuka, ambil data dari API
     super.initState();
     _loadUsers();
   }
@@ -46,7 +44,7 @@ class _GetAPIScreenState extends State<GetAPIScren> {
 
   void _filterUsers() {
     List<Welcome> results = _allUsers;
-    // Fungsi Kalau user mengetik sesuatu
+
     if (_searchQuery.isNotEmpty) {
       results = results.where((user) {
         switch (_selectedCategory) {
@@ -72,7 +70,18 @@ class _GetAPIScreenState extends State<GetAPIScren> {
       }).toList();
     }
 
-    // Update data yang akan ditampilkan
+    // Sorting data
+    results.sort((a, b) {
+      final titleA = (a.title ?? "").toLowerCase();
+      final titleB = (b.title ?? "").toLowerCase();
+
+      if (_sortOption == "A-Z") {
+        return titleA.compareTo(titleB);
+      } else {
+        return titleB.compareTo(titleA);
+      }
+    });
+
     setState(() {
       _filteredUsers = results;
     });
@@ -81,7 +90,6 @@ class _GetAPIScreenState extends State<GetAPIScren> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: const Text("Ghibli Films")),
       body: SafeArea(
         child: Column(
           children: [
@@ -130,45 +138,57 @@ class _GetAPIScreenState extends State<GetAPIScren> {
 
             const SizedBox(height: 10),
 
-            // 📃 List data
+            // 📃 List data + RefreshIndicator
             Expanded(
-              child: _filteredUsers.isEmpty
-                  ? const Center(child: Text("No data found"))
-                  : ListView.builder(
-                      itemCount: _filteredUsers.length,
-                      itemBuilder: (context, index) {
-                        final dataUser = _filteredUsers[index];
-                        return Card(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-                          child: ListTile(
-                            leading: Image.network(
-                              dataUser.image ?? "",
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.cover,
+              child: RefreshIndicator(
+                onRefresh: _loadUsers,
+                child: _filteredUsers.isEmpty
+                    ? const Center(child: Text("No data found"))
+                    : ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: _filteredUsers.length,
+                        itemBuilder: (context, index) {
+                          final dataUser = _filteredUsers[index];
+                          return Card(
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
                             ),
-                            title: Text(dataUser.title ?? ""),
-                            subtitle: Text(
-                              "Director: ${dataUser.director ?? '-'}\n"
-                              "Producer: ${dataUser.producer ?? '-'}\n"
-                              "Year: ${dataUser.releaseDate ?? '-'}",
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      DetailUser(welcome: dataUser),
+                            child: ListTile(
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  dataUser.image ?? "",
+                                  width: 100,
+                                  height: 140,
+                                  fit: BoxFit.cover,
                                 ),
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
+                              ),
+                              title: Text(
+                                dataUser.title ?? "",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text(
+                                "Director: ${dataUser.director ?? '-'}\n"
+                                "Producer: ${dataUser.producer ?? '-'}\n"
+                                "Year: ${dataUser.releaseDate ?? '-'}",
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetailGhibli(welcome: dataUser),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+              ),
             ),
           ],
         ),

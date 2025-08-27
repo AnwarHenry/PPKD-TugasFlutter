@@ -18,8 +18,16 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _register() async {
     if (_formKey.currentState!.validate()) {
+      if (passwordController.text != konfirmasipasswordController.text) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Password dan konfirmasi tidak sama!")),
+        );
+        return;
+      }
+
       try {
         await DBRegister.instance.registerUser(
+          namaController.text.trim(),
           emailController.text.trim(),
           passwordController.text.trim(),
         );

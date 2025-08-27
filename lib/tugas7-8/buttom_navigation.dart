@@ -40,7 +40,6 @@
 //     );
 //   }
 // }
-
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:ppkdb3/tugas2/profile.dart';
@@ -59,16 +58,23 @@ class BottomNavigationWidget extends StatelessWidget {
           item: ItemConfig(
             icon: const Icon(Icons.dashboard),
             title: "Dashboard",
+            activeForegroundColor: Colors.blue, // Warna ketika aktif
+            inactiveForegroundColor: Colors.grey, // Warna ketika non-aktif
           ),
         ),
         PersistentTabConfig(
           screen: const Profile(),
-          item: ItemConfig(icon: const Icon(Icons.person), title: "Profile"),
+          item: ItemConfig(
+            icon: const Icon(Icons.person),
+            title: "Profile",
+            activeForegroundColor: Colors.green, // Warna aktif
+            inactiveForegroundColor: Colors.grey, // Warna non-aktif
+          ),
         ),
       ],
       navBarBuilder: (navBarConfig) => Style1BottomNavBar(
         navBarConfig: navBarConfig,
-        // backgroundColor: Colors.blue,
+        // backgroundColor: Colors.white, // Bisa custom warna background
       ),
     );
   }
