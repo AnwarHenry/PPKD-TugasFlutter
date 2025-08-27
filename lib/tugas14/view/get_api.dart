@@ -93,7 +93,7 @@ class _GetAPIScreenState extends State<GetAPIScren> {
       body: SafeArea(
         child: Column(
           children: [
-            // 🔍 Search Bar
+            // Search Bar
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -111,7 +111,7 @@ class _GetAPIScreenState extends State<GetAPIScren> {
               ),
             ),
 
-            // ⬇️ Dropdown Filter (kategori search)
+            // Dropdown Filter (kategori search)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: DropdownButtonFormField<String>(
@@ -138,7 +138,7 @@ class _GetAPIScreenState extends State<GetAPIScren> {
 
             const SizedBox(height: 10),
 
-            // 📃 List data + RefreshIndicator
+            // List data + RefreshIndicator
             Expanded(
               child: RefreshIndicator(
                 onRefresh: _loadUsers,

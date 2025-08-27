@@ -61,14 +61,19 @@ class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Ghibli Films")),
+      appBar: AppBar(
+        title: const Text("Ghibli Films"),
+        centerTitle: true,
+        backgroundColor: Colors.blueAccent,
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 57, 119, 155),
+                // color: Color.fromARGB(255, 57, 119, 155),
+                color: Colors.blueAccent,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
