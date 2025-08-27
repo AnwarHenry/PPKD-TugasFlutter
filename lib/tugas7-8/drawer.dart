@@ -37,7 +37,7 @@ class _MyDrawerState extends State<MyDrawer> {
     Listmodel(), // index9
     FormPendaftaranPage(), // index 10
     ListPesertaPage(),
-    GetApiScreen(), // index 11
+    GetAPIScren(), // index 11
   ];
 
   void _onItemTapped(int index) {
@@ -61,7 +61,7 @@ class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Ghibli")),
+      appBar: AppBar(title: const Text("Ghibli Films")),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
