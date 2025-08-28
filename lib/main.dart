@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:ppkdb3/tugas15/view/login_api_screen.dart';
+import 'package:ppkdb3/tugas15/view/post_api_screen.dart';
+import 'package:ppkdb3/tugas15/view/splashscreen.dart';
 import 'package:ppkdb3/tugas6/tugas6.dart';
 import 'package:ppkdb3/tugas7-8/drawer.dart';
 
@@ -28,10 +31,14 @@ class MyApp extends StatelessWidget {
         ),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
       ),
-      initialRoute: "/login",
+      initialRoute: SplashScreen01.id,
       routes: {
         "/login": (context) => Tugas6(),
+        // MyDrawer.id: (context) => MyDrawer(),
+        // "/login": (context) => Tugas6(),
+        LoginAPIScreen.id: (context) => LoginAPIScreen(),
         MyDrawer.id: (context) => MyDrawer(),
+        PostApiScreen.id: (context) => PostApiScreen(),
       },
     );
   }
