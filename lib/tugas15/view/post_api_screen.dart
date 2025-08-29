@@ -6,6 +6,7 @@ import 'package:ppkdb3/tugas15/model/register_model.dart';
 class PostApiScreen extends StatefulWidget {
   const PostApiScreen({super.key});
   static const id = '/post_api_screen';
+
   @override
   State<PostApiScreen> createState() => _PostApiScreenState();
 }
@@ -18,6 +19,7 @@ class _PostApiScreenState extends State<PostApiScreen> {
   String? errorMessage;
   bool isVisibility = false;
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Stack(children: [buildBackground(), buildLayer()]));
@@ -28,19 +30,21 @@ class _PostApiScreenState extends State<PostApiScreen> {
       isLoading = true;
       errorMessage = null;
     });
+
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final name = nameController.text.trim();
+
     if (email.isEmpty || password.isEmpty || name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Email, Password, dan Nama tidak boleh kosong"),
         ),
       );
-      isLoading = false;
-
+      setState(() => isLoading = false);
       return;
     }
+
     try {
       final result = await AuthenticationAPI.registerUser(
         email: email,
@@ -53,6 +57,7 @@ class _PostApiScreenState extends State<PostApiScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("Pendaftaran berhasil")));
+
       PreferenceHandler.saveToken(user?.data?.token.toString() ?? "");
       print(user?.toJson());
     } catch (e) {
@@ -64,31 +69,25 @@ class _PostApiScreenState extends State<PostApiScreen> {
         context,
       ).showSnackBar(SnackBar(content: Text(errorMessage.toString())));
     } finally {
-      setState(() {});
-      isLoading = false;
+      setState(() => isLoading = false);
     }
-    // final user = User(email: email, password: password, name: name);
-    // await DbHelper.registerUser(user);
-    // Future.delayed(const Duration(seconds: 1)).then((value) {
-    //   isLoading = false;
-    //   ScaffoldMessenger.of(
-    //     context,
-    //   ).showSnackBar(const SnackBar(content: Text("Pendaftaran berhasil")));
-    // });
   }
 
   SafeArea buildLayer() {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
+      child: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 "Register API",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white, // putih biar kontras dengan background
+                ),
               ),
               height(24),
               buildTitle("Email Address"),
@@ -116,17 +115,12 @@ class _PostApiScreenState extends State<PostApiScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => MeetSebelas()),
-                    // );
-                  },
-                  child: Text(
+                  onPressed: () {},
+                  child: const Text(
                     "Forgot Password?",
                     style: TextStyle(
                       fontSize: 12,
-                      // color: AppColor.orange,
+                      color: Colors.white,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -141,14 +135,14 @@ class _PostApiScreenState extends State<PostApiScreen> {
                     registerUser();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Colors.blue[800],
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: isLoading
-                      ? CircularProgressIndicator()
-                      : Text(
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text(
                           "Daftar",
                           style: TextStyle(
                             fontSize: 16,
@@ -158,41 +152,34 @@ class _PostApiScreenState extends State<PostApiScreen> {
                         ),
                 ),
               ),
-              height(16),
+              height(20),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(right: 8),
-                      height: 1,
-                      color: Colors.white,
-                    ),
+                    child: Divider(color: Colors.white.withOpacity(0.6)),
                   ),
-                  Text(
-                    "Or Sign In With",
-                    // style: TextStyle(fontSize: 12, color: AppColor.gray88),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      "Or Sign In With",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 8),
-
-                      height: 1,
-                      color: Colors.white,
-                    ),
+                    child: Divider(color: Colors.white.withOpacity(0.6)),
                   ),
                 ],
               ),
-
-              height(16),
+              height(20),
               SizedBox(
                 height: 48,
+                width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.white.withOpacity(0.9),
+                    side: BorderSide(color: Colors.grey.shade300),
                   ),
                   onPressed: () {
-                    // Navigate to MeetLima screen menggunakan pushnamed
                     Navigator.pushNamed(context, "/meet_2");
                   },
                   child: Row(
@@ -200,35 +187,33 @@ class _PostApiScreenState extends State<PostApiScreen> {
                     children: [
                       Image.asset(
                         "assets/images/icon_google.png",
-                        height: 16,
-                        width: 16,
+                        height: 18,
+                        width: 18,
                       ),
-                      width(4),
-                      Text("Google"),
+                      width(6),
+                      const Text(
+                        "Google",
+                        style: TextStyle(color: Colors.black87),
+                      ),
                     ],
                   ),
                 ),
               ),
-              height(16),
+              height(20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Don't have an account?",
-                    // style: TextStyle(fontSize: 12, color: AppColor.gray88),
+                    style: TextStyle(color: Colors.white),
                   ),
                   TextButton(
-                    onPressed: () {
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => MeetEmpatA()),
-                      // );
-                    },
+                    onPressed: () {},
                     child: Text(
                       "Sign Up",
                       style: TextStyle(
-                        // color: AppColor.blueButton,
-                        fontSize: 12,
+                        color: Colors.blue[100],
+                        fontSize: 13,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -242,14 +227,16 @@ class _PostApiScreenState extends State<PostApiScreen> {
     );
   }
 
-  Container buildBackground() {
+  /// BACKGROUND dengan nature 2
+  Widget buildBackground() {
     return Container(
       height: double.infinity,
       width: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/background.png"),
+          image: AssetImage("assets/images/nature2.png"),
           fit: BoxFit.cover,
+          alignment: Alignment.center,
         ),
       ),
     );
@@ -262,26 +249,22 @@ class _PostApiScreenState extends State<PostApiScreen> {
   }) {
     return TextField(
       controller: controller,
-      obscureText: isPassword ? isVisibility : false,
+      obscureText: isPassword ? !isVisibility : false,
+      style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         hintText: hintText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(32),
-          borderSide: BorderSide(
-            color: Colors.black.withOpacity(0.2),
-            width: 1.0,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(32),
-          borderSide: BorderSide(color: Colors.black, width: 1.0),
+        hintStyle: TextStyle(color: Colors.white70),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(32),
-          borderSide: BorderSide(
-            color: Colors.black.withOpacity(0.2),
-            width: 1.0,
-          ),
+          borderSide: BorderSide(color: Colors.white70),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32),
+          borderSide: const BorderSide(color: Colors.white, width: 2),
         ),
         suffixIcon: isPassword
             ? IconButton(
@@ -292,7 +275,7 @@ class _PostApiScreenState extends State<PostApiScreen> {
                 },
                 icon: Icon(
                   isVisibility ? Icons.visibility_off : Icons.visibility,
-                  // color: AppColor.gray88,
+                  color: Colors.white,
                 ),
               )
             : null,
@@ -304,10 +287,16 @@ class _PostApiScreenState extends State<PostApiScreen> {
   SizedBox width(double width) => SizedBox(width: width);
 
   Widget buildTitle(String text) {
-    return Row(
-      children: [
-        // Text(text, style: TextStyle(fontSize: 12, color: AppColor.gray88)),
-      ],
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 14,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
   }
 }

@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
         // MyDrawer.id: (context) => MyDrawer(),
         // "/login": (context) => Tugas6(),
         LoginAPIScreen.id: (context) => LoginAPIScreen(),
+        SplashScreen01.id: (context) => SplashScreen01(),
         MyDrawer.id: (context) => MyDrawer(),
         PostApiScreen.id: (context) => PostApiScreen(),
       },

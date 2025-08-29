@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ppkdb3/preference/shared_preference.dart';
 import 'package:ppkdb3/tugas10/formPendaftaran.dart';
 import 'package:ppkdb3/tugas11/listPeserta.dart';
 import 'package:ppkdb3/tugas14/view/get_api.dart';
+import 'package:ppkdb3/tugas15/view/login_api_screen.dart';
+import 'package:ppkdb3/tugas15/view/profile.dart';
 import 'package:ppkdb3/tugas2/profile.dart';
 import 'package:ppkdb3/tugas7-8/checkbox.dart';
 import 'package:ppkdb3/tugas7-8/dashboard.dart';
@@ -14,7 +17,7 @@ import 'package:ppkdb3/tugas9/listmapPakaian.dart';
 import 'package:ppkdb3/tugas9/listmodel.dart';
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({super.key, required});
+  const MyDrawer({super.key});
   static const id = "/drawer";
 
   @override
@@ -24,20 +27,58 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   int _selectedIndex = 0;
 
+  /// Halaman yang ditampilkan
   final List<Widget> _pages = [
-    DashboardPage(), //index 0
-    Profile(), //index 1
-    CheckBoxPage(), //index 2
-    SwitchPage(), //index 3
-    DropdownPage(), //index 4
-    DatePickerPage(), //index 5
-    TimePickerPage(), //index 6
-    ListPakaian(), //index 7
-    ListmapPakaian(), //index 8
-    Listmodel(), // index9
-    FormPendaftaranPage(), // index 10
-    ListPesertaPage(),
-    GetAPIScren(), // index 11
+    const DashboardPage(),
+    const Profile(),
+    const CheckBoxPage(),
+    const SwitchPage(),
+    const DropdownPage(),
+    const DatePickerPage(),
+    const TimePickerPage(),
+    const ListPakaian(),
+    const ListmapPakaian(),
+    const Listmodel(),
+    const FormPendaftaranPage(),
+    const ListPesertaPage(),
+    const GetAPIScren(),
+    const ProfileScreen(),
+  ];
+
+  /// Judul untuk setiap halaman
+  final List<String> _titles = [
+    "Dashboard",
+    "About Me",
+    "Syarat & Ketentuan",
+    "Switch Mode Gelap",
+    "Pilih Kategori Produk",
+    "Pilih Tanggal Lahir",
+    "Atur Pengingat",
+    "List Pakaian",
+    "List Map Pakaian",
+    "List Model Pakaian",
+    "Form Pendaftaran",
+    "List Peserta",
+    "Get API",
+    "Profile - Tugas 15",
+  ];
+
+  /// Icon untuk setiap menu drawer
+  final List<IconData> _icons = [
+    Icons.dashboard,
+    Icons.person,
+    Icons.assignment,
+    Icons.light_mode,
+    Icons.category,
+    Icons.date_range,
+    Icons.alarm,
+    Icons.checkroom,
+    Icons.map,
+    Icons.view_list,
+    Icons.app_registration,
+    Icons.people,
+    Icons.api,
+    Icons.account_circle,
   ];
 
   void _onItemTapped(int index) {
@@ -47,152 +88,143 @@ class _MyDrawerState extends State<MyDrawer> {
   }
 
   void _onDrawerTapped(int index) {
-    Navigator.pop(context); // Tutup drawer
+    Navigator.pop(context);
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  void _logout() {
-    Navigator.pushReplacementNamed(context, "/login");
-    // Untuk Logout
+  // Fungsi logout
+  Future<void> _logout() async {
+    await PreferenceHandler.removeLogin();
+    await PreferenceHandler.removeToken();
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginAPIScreen()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Ghibli Films"),
-        centerTitle: true,
-        backgroundColor: Colors.blueAccent,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                // color: Color.fromARGB(255, 57, 119, 155),
-                color: Colors.blueAccent,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Lingkaran dengan border
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color.fromARGB(172, 0, 0, 0),
-                        width: 3,
-                      ),
-                    ),
-                    child: const CircleAvatar(
-                      radius: 40,
-                      backgroundImage: AssetImage('assets/images/profile1.jpg'),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
+      body: Stack(
+        children: [
+          /// BACKGROUND nature2.png full
+          SizedBox.expand(
+            child: Image.asset("assets/images/nature2.png", fit: BoxFit.cover),
+          ),
 
-                  // Row untuk nama + tombol logout
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Anwar H",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+          /// KONTEN
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              centerTitle: true,
+
+              /// 🔥 Semua ikon AppBar putih
+              iconTheme: const IconThemeData(color: Colors.white),
+
+              title: Text(
+                _titles[_selectedIndex],
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black54,
+                      blurRadius: 6,
+                      offset: Offset(2, 2),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            drawer: Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  /// Drawer Header
+                  DrawerHeader(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/nature2.png"),
+                        fit: BoxFit.cover,
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.logout, color: Colors.white),
-                        tooltip: "Logout",
-                        onPressed: _logout,
-                      ),
-                    ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 3),
+                          ),
+                          child: const CircleAvatar(
+                            radius: 40,
+                            backgroundImage: AssetImage(
+                              'assets/images/profile1.jpg',
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Anwar H",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.logout,
+                                color: Colors.white,
+                              ),
+                              tooltip: "Logout",
+                              onPressed: _logout,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+
+                  /// === List Menu Drawer ===
+                  for (int i = 0; i < _titles.length; i++)
+                    ListTile(
+                      leading: Icon(_icons[i]),
+                      title: Text(_titles[i]),
+                      onTap: () => _onDrawerTapped(i),
+                    ),
                 ],
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.dashboard),
-              title: const Text("Dashboard"),
-              onTap: () => _onDrawerTapped(0),
+            body: _pages[_selectedIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: Colors.black54,
+              selectedItemColor: Colors.cyanAccent,
+              unselectedItemColor: Colors.white70,
+              currentIndex: _selectedIndex > 1 ? 0 : _selectedIndex,
+              onTap: _onItemTapped,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.dashboard),
+                  label: 'Dashboard',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
             ),
-            ListTile(
-              leading: Icon(Icons.person_3_sharp),
-              title: const Text("Profile"),
-              onTap: () => _onDrawerTapped(1),
-            ),
-            ListTile(
-              leading: Icon(Icons.check_box),
-              title: const Text("Syarat & Ketentuan"),
-              onTap: () => _onDrawerTapped(2),
-            ),
-            ListTile(
-              leading: const Icon(Icons.dark_mode),
-              title: const Text("Switch Mode Gelap"),
-              onTap: () => _onDrawerTapped(3),
-            ),
-            ListTile(
-              leading: const Icon(Icons.category),
-              title: const Text("Pilih Kategori Produk"),
-              onTap: () => _onDrawerTapped(4),
-            ),
-            ListTile(
-              leading: const Icon(Icons.date_range),
-              title: const Text("Pilih Tanggal Lahir"),
-              onTap: () => _onDrawerTapped(5),
-            ),
-            ListTile(
-              leading: const Icon(Icons.access_time),
-              title: const Text("Atur Pengingat"),
-              onTap: () => _onDrawerTapped(6),
-            ),
-            Divider(),
-            ListTile(
-              leading: const Icon(Icons.list_sharp),
-              title: const Text("List Pakaian"),
-              onTap: () => _onDrawerTapped(7),
-            ),
-            ListTile(
-              leading: const Icon(Icons.list_sharp),
-              title: const Text("List Map Pakaian"),
-              onTap: () => _onDrawerTapped(8),
-            ),
-            ListTile(
-              leading: const Icon(Icons.list_sharp),
-              title: const Text("List Model Pakaian"),
-              onTap: () => _onDrawerTapped(9),
-            ),
-            ListTile(
-              leading: const Icon(Icons.list_sharp),
-              title: const Text("Form Pendaftaran"),
-              onTap: () => _onDrawerTapped(10),
-            ),
-            ListTile(
-              leading: const Icon(Icons.list_sharp),
-              title: const Text("List Peserta"),
-              onTap: () => _onDrawerTapped(11),
-            ),
-            ListTile(
-              leading: const Icon(Icons.list_sharp),
-              title: const Text("Get API"),
-              onTap: () => _onDrawerTapped(12),
-            ),
-          ],
-        ),
-      ),
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex > 1 ? 0 : _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );

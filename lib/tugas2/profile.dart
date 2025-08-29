@@ -6,159 +6,216 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Profile Saya',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
+      body: Stack(
+        children: [
+          // 🔹 Background nature
+          SizedBox.expand(
+            child: Image.asset('assets/images/nature2.png', fit: BoxFit.cover),
           ),
-        ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
-          children: [
-            Center(
-              child: Container(
-                width: 110,
-                height: 110,
-                decoration: BoxDecoration(
-                  color: Colors.yellow,
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/profile1.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Anwar Hidayat',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Junior Data Analyst | Android Dev',
-              style: TextStyle(fontSize: 14, color: Colors.black),
-            ),
 
-            SizedBox(height: 25),
-            Row(
+          // 🔹 Overlay gelap agar teks lebih kontras
+          Container(color: Colors.black.withOpacity(0.4)),
+
+          // 🔹 Konten utama
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(25.0),
+            child: Column(
               children: [
-                Expanded(
+                const SizedBox(height: 60),
+
+                // Foto Profil
+                Center(
                   child: Container(
-                    padding: EdgeInsets.all(15),
+                    width: 120,
+                    height: 120,
                     decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(12),
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 4),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/images/profile1.jpg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+
+                // Nama
+                const Text(
+                  'Anwar Hidayat',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black54,
+                        blurRadius: 6,
+                        offset: Offset(2, 2),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                // Profesi
+                Text(
+                  'Junior Data Analyst | Android Dev',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.tealAccent.shade100,
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                // 🔹 Card kontak
+                Row(
+                  children: [
+                    Expanded(
+                      child: Card(
+                        color: Colors.white.withOpacity(0.85),
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: const [
+                              Icon(Icons.email, color: Colors.blueAccent),
+                              SizedBox(height: 8),
+                              Text(
+                                'anwarh@gmail.com',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 15),
+                    Expanded(
+                      child: Card(
+                        color: Colors.white.withOpacity(0.85),
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: const [
+                              Icon(Icons.phone, color: Colors.green),
+                              SizedBox(height: 8),
+                              Text(
+                                '0812-3456-7890',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                // 🔹 Postingan & Followers
+                Row(
+                  children: [
+                    Expanded(
+                      child: Card(
+                        color: Colors.white.withOpacity(0.85),
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Icon(Icons.article, color: Colors.indigo),
+                              SizedBox(height: 8),
+                              Text(
+                                "Postingan",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 15),
+                    Expanded(
+                      child: Card(
+                        color: Colors.white.withOpacity(0.85),
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Icon(Icons.favorite, color: Colors.redAccent),
+                              SizedBox(height: 8),
+                              Text(
+                                "Followers",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 30),
+
+                // 🔹 Tentang Saya
+                Card(
+                  color: Colors.white.withOpacity(0.85),
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
                     child: Column(
-                      children: [
-                        Icon(Icons.email, color: Colors.white),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "Tentang Saya",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Divider(),
                         SizedBox(height: 10),
-                        Text('anwarh@gmail.com'),
+                        Text(
+                          "Halo! Welcome to My Profile. "
+                          "Saya seorang Junior Data Analyst dan Android Developer "
+                          "yang tertarik pada pengolahan data, visualisasi, dan pengembangan aplikasi mobile.",
+                          style: TextStyle(fontSize: 15, height: 1.4),
+                          textAlign: TextAlign.justify,
+                        ),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(width: 15),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(Icons.phone, color: Colors.red),
-                        SizedBox(height: 10),
-                        Text('0812-3456-7890'),
-                      ],
-                    ),
-                  ),
-                ),
+
+                const SizedBox(height: 40),
               ],
             ),
-
-            //baris 4 - Postingan & Followers
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Colors.teal.shade100,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      //  color: Colors.teal.shade100,
-                      child: const Column(
-                        children: [
-                          Icon(Icons.article, color: Colors.blue),
-                          Text(
-                            "Postingan",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Colors.teal.shade100,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      //  color: Colors.teal.shade200,
-                      child: const Column(
-                        children: [
-                          Icon(Icons.favorite, color: Colors.red),
-                          Text(
-                            "Followers",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Baris 5 - Deskripsi
-            SizedBox(height: 15),
-            Text(
-              "Tentang Saya",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Divider(),
-            SizedBox(height: 12),
-            const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "Halo! Welcome to My Profile",
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.justify,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
